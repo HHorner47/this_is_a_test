@@ -21,14 +21,48 @@
         <button id="btn" class="btn">押せ</button>
 </div>
 
+<dialog id="customAlert">
+    <p id="alertText"></p>
+    <button id="alertTextBtn">ok</button> <!-- ここで文字をokに固定 -->
+</dialog>
 
 <script>
     const btn = document.getElementById("btn");
-    btn.addEventListener("click",function(){
-        alert("これを押したあなたはゲイです");
-        alert("okって押したね");
-        alert("やっぱりゲイやん");
-    })
+    const dialog = document.getElementById("customAlert");
+    const alertText = document.getElementById("alertText");
+    const alertTextBtn = document.getElementById("alertTextBtn");
+
+    // 表示したいセリフのリスト
+    const messages = [
+        "これを押したあなたはゲイです",
+        "okって押したね",
+        "やっぱりゲイやん"
+    ];
+    let currentIndex = 0;
+
+    btn.addEventListener("click", function(){
+        currentIndex = 0; // カウンターをリセット
+        showAlert();
+    });
+
+    // アラートを表示する関数
+    function showAlert() {
+        if (currentIndex < messages.length) {
+            alertText.textContent = messages[currentIndex];
+            dialog.showModal(); // 画面を表示
+        } else {
+            dialog.close(); // すべて終わったら閉じる
+        }
+    }
+
+    // 自作アラートの「ok」ボタンが押された時の処理
+    alertTextBtn.addEventListener("click", function() {
+        dialog.close(); // 一旦閉じる
+        currentIndex++; // 次のメッセージへ
+        
+        // 少しだけ時間を遅らせて次のアラートを出す（連続感を出すため）
+        setTimeout(showAlert, 100); 
+    });
 </script>
 </body>
 </html>
